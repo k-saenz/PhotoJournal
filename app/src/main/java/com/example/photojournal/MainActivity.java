@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             NewPhotoFragment newFrag = NewPhotoFragment.newInstance();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.entries_fragment_container_view, newFrag);
-            transaction.disallowAddToBackStack();
+            transaction.addToBackStack(null);
             transaction.commit();
         });
 
