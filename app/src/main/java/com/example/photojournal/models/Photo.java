@@ -4,23 +4,25 @@ import java.time.LocalDateTime;
 
 public abstract class Photo {
     private String id;
+    private String name;
     private String description;
     private LocalDateTime dateTime;
     private String location;
     private Exposure exposure;
     //Camera settings
-    private String shutterSpeed;
+    private int shutterSpeed;
     private int aperture;
     private Camera camera;
     private Lens lens;
 
     public Photo(){}
 
-    public Photo(String id, String description,
+    public Photo(String id, String name, String description,
                  LocalDateTime dateTime, String location,
-                 Exposure exposure, String shutterSpeed,
+                 Exposure exposure, int shutterSpeed,
                  int aperture, Camera camera, Lens lens) {
         this.id = id;
+        this.name = name;
         this.description = description;
         this.dateTime = dateTime;
         this.location = location;
@@ -37,6 +39,14 @@ public abstract class Photo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -71,11 +81,11 @@ public abstract class Photo {
         this.exposure = exposure;
     }
 
-    public String getShutterSpeed() {
+    public int getShutterSpeed() {
         return shutterSpeed;
     }
 
-    public void setShutterSpeed(String shutterSpeed) {
+    public void setShutterSpeed(int shutterSpeed) {
         this.shutterSpeed = shutterSpeed;
     }
 
@@ -102,4 +112,6 @@ public abstract class Photo {
     public void setLens(Lens lens) {
         this.lens = lens;
     }
+
+
 }

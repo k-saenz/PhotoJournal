@@ -9,11 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PhotosListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PhotosListFragment extends Fragment {
 
 
@@ -21,16 +16,8 @@ public class PhotosListFragment extends Fragment {
         super(R.layout.fragment_photos_list);
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PhotosListFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static PhotosListFragment newInstance(String param1, String param2) {
+    public static PhotosListFragment newInstance() {
         PhotosListFragment fragment = new PhotosListFragment();
 
         return fragment;

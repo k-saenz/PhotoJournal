@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentManager;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         /*
         TEST DATA
          */
@@ -52,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> {
             NewPhotoFragment newFrag = NewPhotoFragment.newInstance();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.entries_fragment_container_view, newFrag);
-            transaction.addToBackStack(null);
+            transaction.replace(R.id.entries_fragment_container_view, newFrag);
+            transaction.disallowAddToBackStack();
             transaction.commit();
         });
 

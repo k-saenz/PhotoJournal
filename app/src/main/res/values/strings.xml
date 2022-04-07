@@ -4,4 +4,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fab_content_description">add new entry</string>
     <string name="new_entry_frag_content_desc">add new journal entry</string>
+    <string name="switch_film">Film</string>
+    <string name="switch_digital">Digital</string>
 </resources>
