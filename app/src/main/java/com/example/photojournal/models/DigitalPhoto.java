@@ -3,24 +3,24 @@ package com.example.photojournal.models;
 import java.time.LocalDateTime;
 
 public class DigitalPhoto extends Photo{
-    private int iso;
+    private String resolution;
 
     public DigitalPhoto(){}
 
     public DigitalPhoto(String id, String name, String description,
                         LocalDateTime dateTime, String location,
                         Exposure exposure, int shutterSpeed,
-                        int aperture, Camera camera,
-                        Lens lens, int iso) {
-        super(id, name, description, dateTime, location, exposure, shutterSpeed, aperture, camera, lens);
-        this.iso = iso;
+                        int aperture, String camera,
+                        String lens, int iso, String res) {
+        super(id, name, description, dateTime, location, exposure, shutterSpeed, aperture, iso, camera, lens);
+        this.resolution = res;
     }
 
-    public int getIso() {
-        return iso;
+    public String getResolution() {
+        return resolution;
     }
 
-    public void setIso(int iso) {
-        this.iso = iso;
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
     }
 }

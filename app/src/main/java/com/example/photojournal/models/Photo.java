@@ -1,8 +1,9 @@
 package com.example.photojournal.models;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public abstract class Photo {
+public abstract class Photo implements Serializable {
     private String id;
     private String name;
     private String description;
@@ -12,15 +13,21 @@ public abstract class Photo {
     //Camera settings
     private int shutterSpeed;
     private float aperture;
-    private Camera camera;
-    private Lens lens;
+    private int iso;
+    private String lens;
+    private String camera;
+    /*
+    * FUTURE IMPLEMENTATION:
+    * private Lens lens;
+    * private Camera camera;
+    * */
 
     public Photo(){}
 
     public Photo(String id, String name, String description,
                  LocalDateTime dateTime, String location,
                  Exposure exposure, int shutterSpeed,
-                 float aperture, Camera camera, Lens lens) {
+                 float aperture, int iso, String camera, String lens) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,6 +36,7 @@ public abstract class Photo {
         this.exposure = exposure;
         this.shutterSpeed = shutterSpeed;
         this.aperture = aperture;
+        this.iso = iso;
         this.camera = camera;
         this.lens = lens;
     }
@@ -97,19 +105,27 @@ public abstract class Photo {
         this.aperture = aperture;
     }
 
-    public Camera getCamera() {
+    public int getIso() {
+        return iso;
+    }
+
+    public void setIso(int iso) {
+        this.iso = iso;
+    }
+
+    public String getCamera() {
         return camera;
     }
 
-    public void setCamera(Camera camera) {
+    public void setCamera(String camera) {
         this.camera = camera;
     }
 
-    public Lens getLens() {
+    public String getLens() {
         return lens;
     }
 
-    public void setLens(Lens lens) {
+    public void setLens(String lens) {
         this.lens = lens;
     }
 

@@ -10,8 +10,8 @@ public class FilmPhoto extends Photo{
     public FilmPhoto(String id, String name, String description,
                      LocalDateTime dateTime, String location,
                      Exposure exposure, int shutterSpeed,
-                     int aperture, Camera camera, Lens lens, String filmUsed) {
-        super(id, name, description, dateTime, location, exposure, shutterSpeed, aperture, camera, lens);
+                     int aperture, int iso, String camera, String lens, String filmUsed) {
+        super(id, name, description, dateTime, location, exposure, shutterSpeed, aperture, iso, camera, lens);
         this.filmUsed = filmUsed;
     }
 

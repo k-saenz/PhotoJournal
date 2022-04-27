@@ -34,11 +34,4 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.content_main);
 
     }
-
-    public void submitNewEntry(View view) {
-
-
-        Photo photo = PhotoFactory.createPhoto("");
-    }
-
 }
