@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 public class DigitalPhoto extends Photo{
     private int iso;
 
+    public DigitalPhoto(){}
+
     public DigitalPhoto(String id, String name, String description,
                         LocalDateTime dateTime, String location,
                         Exposure exposure, int shutterSpeed,

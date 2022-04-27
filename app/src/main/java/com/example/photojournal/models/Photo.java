@@ -11,7 +11,7 @@ public abstract class Photo {
     private Exposure exposure;
     //Camera settings
     private int shutterSpeed;
-    private int aperture;
+    private float aperture;
     private Camera camera;
     private Lens lens;
 
@@ -20,7 +20,7 @@ public abstract class Photo {
     public Photo(String id, String name, String description,
                  LocalDateTime dateTime, String location,
                  Exposure exposure, int shutterSpeed,
-                 int aperture, Camera camera, Lens lens) {
+                 float aperture, Camera camera, Lens lens) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -89,11 +89,11 @@ public abstract class Photo {
         this.shutterSpeed = shutterSpeed;
     }
 
-    public int getAperture() {
+    public float getAperture() {
         return aperture;
     }
 
-    public void setAperture(int aperture) {
+    public void setAperture(float aperture) {
         this.aperture = aperture;
     }
 

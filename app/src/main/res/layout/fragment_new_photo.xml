@@ -6,184 +6,214 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="357dp"
-        android:layout_height="57dp"
-        android:text="Submit"
+    <ScrollView
+        android:layout_width="409dp"
+        android:layout_height="729dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.46"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/txtViewGeneral"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="General"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-    <EditText
-        android:id="@+id/txtDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewGeneral" />
-
-    <EditText
-        android:id="@+id/txtTime"
-        android:layout_width="187dp"
-        android:layout_height="44dp"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/txtDate"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewGeneral" />
-
-    <EditText
-        android:id="@+id/txtLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Location"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDate" />
-
-    <TextView
-        android:id="@+id/txtViewCameraSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Camera Settings"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
-
-    <EditText
-        android:id="@+id/txtShutterSpeed"
-        android:layout_width="128dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewCameraSettings" />
-
-    <EditText
-        android:id="@+id/txtAperture"
-        android:layout_width="128dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintEnd_toStartOf="@+id/txtIso"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toEndOf="@+id/txtShutterSpeed"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewCameraSettings" />
-
-    <EditText
-        android:id="@+id/txtIso"
-        android:layout_width="128dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="12dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewCameraSettings" />
-
-    <EditText
-        android:id="@+id/txtLens"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Lens"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtAperture" />
-
-    <EditText
-        android:id="@+id/txtCamera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtLens" />
-
-    <EditText
-        android:id="@+id/txtFilmUsed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Film"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCamera" />
-
-    <TextView
-        android:id="@+id/txtViewAbout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="About"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtFilmUsed" />
-
-    <EditText
-        android:id="@+id/txtDescription"
-        android:layout_width="353dp"
-        android:layout_height="131dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewAbout" />
-
-    <RadioGroup
-        android:layout_width="356dp"
-        android:layout_height="141dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription" >
-
-        <RadioButton
-            android:id="@+id/rdoOverExposed"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Over Exposed" />
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/rdoUnderExposed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="UnderExposed" />
 
-        <RadioButton
-            android:id="@+id/rdoPerfectExposure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Perfect Exposure" />
-    </RadioGroup>
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="357dp"
+                android:layout_height="57dp"
+                android:onClick="submitNewEntry"
+                android:text="Submit"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.46"
+                app:layout_constraintStart_toStartOf="parent" />
 
+            <TextView
+                android:id="@+id/txtViewGeneral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="General"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/txtDate"
+                android:layout_width="190dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="12dp"
+                android:ems="10"
+                android:hint="Date"
+                android:inputType="date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtViewGeneral" />
+
+            <EditText
+                android:id="@+id/txtDate2"
+                android:layout_width="190dp"
+                android:layout_height="43dp"
+                android:ems="10"
+                android:hint="Time"
+                android:inputType="time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.368"
+                app:layout_constraintStart_toEndOf="@+id/txtDate"
+                app:layout_constraintTop_toBottomOf="@+id/txtViewGeneral" />
+
+            <EditText
+                android:id="@+id/txtLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Location"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+            <TextView
+                android:id="@+id/txtViewCameraSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Camera Settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
+
+            <EditText
+                android:id="@+id/txtShutterSpeed"
+                android:layout_width="128dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Shutter Speed"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtViewCameraSettings" />
+
+            <EditText
+                android:id="@+id/txtAperture"
+                android:layout_width="128dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Aperture"
+                android:inputType="number"
+                app:layout_constraintEnd_toStartOf="@+id/txtIso"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toEndOf="@+id/txtShutterSpeed"
+                app:layout_constraintTop_toBottomOf="@+id/txtViewCameraSettings" />
+
+            <EditText
+                android:id="@+id/txtIso"
+                android:layout_width="128dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="12dp"
+                android:ems="10"
+                android:hint="ISO"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtViewCameraSettings" />
+
+            <EditText
+                android:id="@+id/txtLens"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Lens"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtAperture" />
+
+            <EditText
+                android:id="@+id/txtCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Camera"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtLens" />
+
+            <EditText
+                android:id="@+id/txtFilmUsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Film"
+                android:inputType="textPersonName"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtCamera" />
+
+            <TextView
+                android:id="@+id/txtViewAbout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="About"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtFilmUsed" />
+
+            <EditText
+                android:id="@+id/txtDescription"
+                android:layout_width="353dp"
+                android:layout_height="131dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Description"
+                android:inputType="textMultiLine"
+                android:singleLine="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.482"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtViewAbout" />
+
+            <RadioGroup
+                android:layout_width="356dp"
+                android:layout_height="141dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+
+                <RadioButton
+                    android:id="@+id/rdoOverExposed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Over Exposed" />
+
+                <RadioButton
+                    android:id="@+id/rdoUnderExposed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="UnderExposed" />
+
+                <RadioButton
+                    android:id="@+id/rdoPerfectExposure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Perfect Exposure" />
+            </RadioGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

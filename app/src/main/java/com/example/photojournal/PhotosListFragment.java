@@ -18,7 +18,9 @@ import android.view.ViewGroup;
 
 import com.example.photojournal.models.FilmPhoto;
 import com.example.photojournal.models.Photo;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+//import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.LinkedList;
 
@@ -70,7 +72,7 @@ public class PhotosListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_photos_list, container, false);
 
-        FloatingActionButton fab = v.findViewById(R.id.fabAddEntry);
+        FloatingActionButton fab = v.findViewById(R.id.fabAddFilm);
 
         fab.setOnClickListener(view -> {
             NewPhotoFragment newFrag = NewPhotoFragment.newInstance();
