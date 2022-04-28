@@ -1,7 +1,11 @@
 package com.example.photojournal;
 
+import static android.os.Environment.getExternalStoragePublicDirectory;
+
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photojournal.models.Photo;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class PhotoListAdapter extends
@@ -42,6 +52,7 @@ public class PhotoListAdapter extends
         Photo current = mPhotoList.get(position);
         holder.photoNameItemView.setText(current.getName());
         holder.photoDescriptionItemView.setText(current.getDescription());
+        //holder.photoPicturePath
     }
 
     @Override
@@ -61,6 +72,7 @@ public class PhotoListAdapter extends
             extends RecyclerView.ViewHolder
             implements View.OnClickListener{
 
+        public final TextView photoPictureItemView;
         public final TextView photoDescriptionItemView;
         public final TextView photoNameItemView;
         final PhotoListAdapter mAdapter;
@@ -69,10 +81,10 @@ public class PhotoListAdapter extends
             super(itemView);
             photoNameItemView = itemView.findViewById(R.id.photo_name);
             photoDescriptionItemView = itemView.findViewById(R.id.photo_description);
+            photoPictureItemView = itemView.findViewById(R.id.imgPicTaken);
             this.mAdapter = adapter;
             itemView.setOnClickListener(this);
         }
-
 
         @Override
         public void onClick(View view) {
@@ -80,7 +92,6 @@ public class PhotoListAdapter extends
             Photo item = mPhotoList.get(mPosition);
             Toast toast = Toast.makeText(view.getContext(), "Clicked " + item.getDescription(), Toast.LENGTH_SHORT);
             toast.show();
-            //TODO: Navigate to NewPhotoFragment and pass in Photo object to edit
             Bundle data = new Bundle();
             data.putSerializable("photo", item);
 
@@ -95,5 +106,9 @@ public class PhotoListAdapter extends
 
             mAdapter.notifyDataSetChanged();
         }
+
+        String currentPhotoPath;
+
+
     }
 }

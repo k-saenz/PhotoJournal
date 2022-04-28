@@ -30,6 +30,7 @@ public class Photo implements Serializable {
     // TODO: Remove these properties to implement Factory pattern
     private boolean isFilm; //true: Film, false: digital
     private String filmOrRes; //Film stock used or Resolution of digital image
+    private String pathToCameraPicture;
     /*
     * FUTURE IMPLEMENTATION:
     * private Lens lens;
@@ -43,7 +44,7 @@ public class Photo implements Serializable {
                  Exposure exposure, int shutterSpeed,
                  float aperture, int iso, String lens,
                  String camera, boolean isFilm,
-                 String filmOrRes) {
+                 String filmOrRes, String pathToPhoto) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -57,6 +58,7 @@ public class Photo implements Serializable {
         this.camera = camera;
         this.isFilm = isFilm;
         this.filmOrRes = filmOrRes;
+        this.pathToCameraPicture = pathToPhoto;
     }
 
     public int getId() {
@@ -161,5 +163,13 @@ public class Photo implements Serializable {
 
     public void setFilmOrRes(String filmOrRes) {
         this.filmOrRes = filmOrRes;
+    }
+
+    public String getPathToCameraPicture() {
+        return pathToCameraPicture;
+    }
+
+    public void setPathToCameraPicture(String pathToPhoto) {
+        this.pathToCameraPicture = pathToPhoto;
     }
 }

@@ -7,6 +7,11 @@
     android:padding="6dp"
     android:background="@drawable/border_top_bottom">
 
+
+    <ImageView
+        android:id="@+id/imgPicTaken"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <TextView
         android:id="@+id/photo_name"
         style="@style/photo_title" />
@@ -14,11 +19,4 @@
     <TextView
         android:id="@+id/photo_description"
         style="@style/photo_description" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="162dp"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        app:icon="@drawable/ic_delete" />
 </LinearLayout>

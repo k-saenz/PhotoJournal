@@ -25,11 +25,10 @@
                 android:id="@+id/btnSubmit"
                 android:layout_width="357dp"
                 android:layout_height="57dp"
-
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="36dp"
                 android:text="Submit"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.538"
+                app:layout_constraintHorizontal_bias="0.442"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnAddPicture" />
 
@@ -266,12 +265,24 @@
                 android:id="@+id/btnAddPicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="36dp"
                 android:text="Add Picture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rdoGrpExposure" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="357dp"
+                android:layout_height="57dp"
+                android:layout_marginTop="36dp"
+                android:text="Delete Entry"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

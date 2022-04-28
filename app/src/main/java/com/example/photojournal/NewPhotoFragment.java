@@ -81,6 +81,7 @@ public class NewPhotoFragment extends Fragment {
         String filmResString = filmOrRes.getText().toString();
 
         Button submit = v.findViewById(R.id.btnSubmit);
+        Button addPicture = v.findViewById(R.id.btnAddPicture);
 
         Photo photo = new Photo();
 
@@ -100,11 +101,23 @@ public class NewPhotoFragment extends Fragment {
 
         //Fill data fields with data from obj if user wants to edit their entry
         if (photoDataForEdit != null){
-            editPhoto(photoDataForEdit, v);
+            Photo fromEdit = editPhoto(photoDataForEdit, v);
+            Button btnDelete = v.findViewById(R.id.btnDelete);
+            btnDelete.setVisibility(View.VISIBLE);
+            btnDelete.setOnClickListener(view -> {
+                MainActivity.photoDB.photoDAO().deletePhoto(fromEdit);
+                Toast toast = Toast.makeText(view.getContext(), "Deleted " + fromEdit.getName(), Toast.LENGTH_SHORT);
+                toast.show();
+                getActivity().onBackPressed();
+            });
         }
 
-        submit.setOnClickListener(view -> {
+        addPicture.setOnClickListener(view -> {
+            
+        });
 
+
+        submit.setOnClickListener(view -> {
             Photo newPhoto = setPhotoProperties(photo, v);
 
             if (newPhoto != null){
@@ -116,7 +129,6 @@ public class NewPhotoFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-
         // Inflate the layout for this fragment
         return v;
     }
@@ -233,7 +245,7 @@ public class NewPhotoFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void editPhoto(Photo p, View view){
+    private Photo editPhoto(Photo p, View view){
         //Get Views
         //General
         EditText name = (EditText) view.findViewById(R.id.txtName);
@@ -296,5 +308,6 @@ public class NewPhotoFragment extends Fragment {
             rdoGrpPhotoType.check(R.id.rdoDigital);
         }
 
+        return p;
     }
 }

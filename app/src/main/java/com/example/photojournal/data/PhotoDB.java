@@ -6,7 +6,7 @@ import androidx.room.TypeConverters;
 
 import com.example.photojournal.models.Photo;
 
-@Database(entities = {Photo.class}, version = 2)
+@Database(entities = {Photo.class}, version = 3)
 @TypeConverters({PhotoTypeConverters.class})
 public abstract class PhotoDB extends RoomDatabase {
     public abstract PhotoDAO photoDAO();
