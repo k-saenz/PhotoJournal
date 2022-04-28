@@ -5,8 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.photojournal.models.Photo;
@@ -43,6 +46,7 @@ public class PhotoListAdapter extends
         return mPhotoList.size();
     }
 
+
     public static class PhotoViewHolder
             extends RecyclerView.ViewHolder
             implements View.OnClickListener{
@@ -62,7 +66,8 @@ public class PhotoListAdapter extends
         public void onClick(View view) {
             int mPosition = getLayoutPosition();
             Photo item = mPhotoList.get(mPosition);
-
+            Toast toast = Toast.makeText(view.getContext(), "Clicked " + item.getDescription(), Toast.LENGTH_SHORT);
+            toast.show();
             //TODO: Navigate to NewPhotoFragment and pass in Photo object to edit
 
             mAdapter.notifyDataSetChanged();

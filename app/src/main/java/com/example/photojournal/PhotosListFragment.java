@@ -2,11 +2,12 @@ package com.example.photojournal;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,19 +17,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.photojournal.models.DigitalPhoto;
 import com.example.photojournal.models.FilmPhoto;
 import com.example.photojournal.models.Photo;
 //import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.util.LinkedList;
 
 public class PhotosListFragment extends Fragment {
 
-    private LinkedList<Photo> mPhotoList;
+    private LinkedList<Photo> mPhotoList = new LinkedList<Photo>();
     private RecyclerView mRecyclerView;
     private PhotoListAdapter mAdapter;
+    private SharedPreferences mPrefs;
 
     public PhotosListFragment() {
         super(R.layout.fragment_photos_list);
@@ -40,31 +44,7 @@ public class PhotosListFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        try {
-        /*
-        TEST DATA
-         */
-            mPhotoList = new LinkedList<Photo>();
-            for (int i = 0; i < 3; i++){
-                Photo photo = new FilmPhoto();
-                photo.setDescription("Just some photo");
-//            photo.setId(Integer.toString(i));
-//            photo.setAperture(i + 4);
-//            photo.setExposure(Exposure.OVER_EXPOSED);
-//            photo.setDateTime(LocalDateTime.now());
-//            photo.setShutterSpeed("500");
-//            photo.setLocation("Here");
-
-                mPhotoList.addLast(photo);
-            }
-
-            super.onCreate(savedInstanceState);
-
-
-        } catch (Exception e){
-            Log.e(TAG, "onCreateView", e);
-            throw e;
-        }
+        super.onCreate(savedInstanceState);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,7 +52,15 @@ public class PhotosListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_photos_list, container, false);
 
-        FloatingActionButton fab = v.findViewById(R.id.fabAddFilm);
+        mPrefs = getActivity().getSharedPreferences("com.example.photojournal", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("Photo", "");
+
+        Photo photo = gson.fromJson(json, Photo.class);
+
+        //TODO: Populate RV with list items
+
+        FloatingActionButton fab = v.findViewById(R.id.fabAddEntry);
 
         fab.setOnClickListener(view -> {
             NewPhotoFragment newFrag = NewPhotoFragment.newInstance();

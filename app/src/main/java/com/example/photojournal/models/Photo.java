@@ -3,7 +3,8 @@ package com.example.photojournal.models;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public abstract class Photo implements Serializable {
+// TODO: Implement Factory Design Pattern by making this class abstract
+public class Photo implements Serializable {
     private String id;
     private String name;
     private String description;
@@ -16,6 +17,9 @@ public abstract class Photo implements Serializable {
     private int iso;
     private String lens;
     private String camera;
+    // TODO: Remove these properties to implement Factory pattern
+    private boolean isFilm; //true: Film, false: digital
+    private String filmOrRes; //Film stock used or Resolution of digital image
     /*
     * FUTURE IMPLEMENTATION:
     * private Lens lens;
@@ -27,7 +31,9 @@ public abstract class Photo implements Serializable {
     public Photo(String id, String name, String description,
                  LocalDateTime dateTime, String location,
                  Exposure exposure, int shutterSpeed,
-                 float aperture, int iso, String camera, String lens) {
+                 float aperture, int iso, String lens,
+                 String camera, boolean isFilm,
+                 String filmOrRes) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -37,8 +43,10 @@ public abstract class Photo implements Serializable {
         this.shutterSpeed = shutterSpeed;
         this.aperture = aperture;
         this.iso = iso;
-        this.camera = camera;
         this.lens = lens;
+        this.camera = camera;
+        this.isFilm = isFilm;
+        this.filmOrRes = filmOrRes;
     }
 
     public String getId() {
@@ -129,5 +137,19 @@ public abstract class Photo implements Serializable {
         this.lens = lens;
     }
 
+    public boolean isFilm() {
+        return isFilm;
+    }
 
+    public void setFilm(boolean film) {
+        isFilm = film;
+    }
+
+    public String getFilmOrRes() {
+        return filmOrRes;
+    }
+
+    public void setFilmOrRes(String filmOrRes) {
+        this.filmOrRes = filmOrRes;
+    }
 }
