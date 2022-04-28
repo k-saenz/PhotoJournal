@@ -1,37 +1,50 @@
 package com.example.photojournal;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 
-import com.example.photojournal.models.Exposure;
-import com.example.photojournal.models.FilmPhoto;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+import androidx.room.migration.AutoMigrationSpec;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.example.photojournal.data.PhotoDB;
 import com.example.photojournal.models.Photo;
-import com.example.photojournal.models.PhotoFactory;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 
 public class MainActivity extends FragmentActivity {
-    //SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+    private LinkedList<Photo> mPhotoList;
+    public static FragmentManager fragmentManager;
+    public static PhotoDB photoDB;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_main);
+        setContentView(R.layout.activity_main);
+
+        fragmentManager = getSupportFragmentManager();
+        if (findViewById(R.id.fragment_container) != null) {
+            if (savedInstanceState != null){ return; }
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, new PhotosListFragment())
+                    .commit();
+        }
+
+        photoDB = Room.databaseBuilder(getApplicationContext(), PhotoDB.class, "photodb")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+
     }
 
 

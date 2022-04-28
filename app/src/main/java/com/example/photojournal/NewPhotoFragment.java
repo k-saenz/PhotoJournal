@@ -36,7 +36,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public class NewPhotoFragment extends Fragment {
 
     private Context mContext;
-    private SharedPreferences mPrefs;
     private LinkedList<Photo> mPhotos;
 
     public NewPhotoFragment() {
@@ -65,7 +64,13 @@ public class NewPhotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_new_photo, container, false);
-        mPrefs = getActivity().getPreferences(Context.MODE_PRIVATE);
+        Bundle args = getArguments();
+        Photo photoDataForEdit = null;
+
+        if (args != null){
+            photoDataForEdit = (Photo) args.getSerializable("photo");
+        }
+
         Gson gson = new Gson();
 
         //Inflate Dialogs for date and time pickers
@@ -76,8 +81,6 @@ public class NewPhotoFragment extends Fragment {
         String filmResString = filmOrRes.getText().toString();
 
         Button submit = v.findViewById(R.id.btnSubmit);
-
-        SharedPreferences.Editor editor = mPrefs.edit();
 
         Photo photo = new Photo();
 
@@ -95,18 +98,23 @@ public class NewPhotoFragment extends Fragment {
             }
         });
 
+        //Fill data fields with data from obj if user wants to edit their entry
+        if (photoDataForEdit != null){
+            editPhoto(photoDataForEdit, v);
+        }
+
         submit.setOnClickListener(view -> {
 
             Photo newPhoto = setPhotoProperties(photo, v);
-            String json = gson.toJson(newPhoto);
-            editor.putString("Photo", json);
-            editor.apply();
 
-            String toastText = "Submitted " + newPhoto.getName();
-            Toast toast = Toast.makeText(view.getContext(), toastText, Toast.LENGTH_SHORT);
-            toast.show();
+            if (newPhoto != null){
+                String toastText = "Submitted " + newPhoto.getName();
+                Toast toast = Toast.makeText(view.getContext(), toastText, Toast.LENGTH_SHORT);
+                toast.show();
 
-            getActivity().onBackPressed();
+                MainActivity.photoDB.photoDAO().addPhoto(newPhoto);
+                getActivity().onBackPressed();
+            }
         });
 
         // Inflate the layout for this fragment
@@ -122,26 +130,27 @@ public class NewPhotoFragment extends Fragment {
         timeView.setInputType(InputType.TYPE_NULL);
 
         dateView.setOnClickListener(view -> {
-            int day = LocalDateTime.now().getDayOfMonth();
-            int month = LocalDateTime.now().getMonthValue();
-            int year = LocalDateTime.now().getYear();
+            int currentDay = LocalDateTime.now().getDayOfMonth();
+            int currentMonth = LocalDateTime.now().getMonthValue();
+            int currentYear = LocalDateTime.now().getYear();
 
-            DatePickerDialog picker = new DatePickerDialog(getContext(), (datePicker, i, i1, i2) -> {
+            DatePickerDialog picker = new DatePickerDialog(getContext(), (datePicker, year, month, day) -> {
                 DateTimeFormatter pattern = DateTimeFormatter.ofPattern("MM-dd-yyyy");
-                dateView.setText(LocalDateTime.now().format(pattern));
-            }, year, month, day);
+
+                dateView.setText(LocalDate.of(year, month, day).format(pattern));
+            }, currentYear, currentMonth, currentDay);
 
             picker.show();
         });
 
         timeView.setOnClickListener(view -> {
-            int hour = LocalDateTime.now().getHour();
-            int minute = LocalDateTime.now().getMinute();
+            int currentHour = LocalDateTime.now().getHour();
+            int currentMinute = LocalDateTime.now().getMinute();
 
-            TimePickerDialog picker = new TimePickerDialog(getContext(), (timePicker, i, i1) -> {
+            TimePickerDialog picker = new TimePickerDialog(getContext(), (timePicker, hour, minute) -> {
                 DateTimeFormatter pattern = DateTimeFormatter.ofPattern("HH:mm");
-                timeView.setText(LocalDateTime.now().format(pattern));
-            }, hour, minute, false);
+                timeView.setText(LocalTime.of(hour, minute).format(pattern));
+            }, currentHour, currentMinute, false);
 
             picker.show();
         });
@@ -155,11 +164,25 @@ public class NewPhotoFragment extends Fragment {
             EditText name = (EditText) view.findViewById(R.id.txtName);
             EditText date = (EditText) view.findViewById(R.id.txtDate);
             TextView time = view.findViewById(R.id.txtTime);
-            photo.setName(name.getText().toString());
-            LocalDateTime datetime = LocalDateTime.of(
-                    LocalDate.parse(date.getText().toString()),
-                    LocalTime.parse(time.getText().toString()));
-            photo.setDateTime(datetime);
+
+            String strName = name.getText().toString();
+
+            if (strName.equalsIgnoreCase("")){
+                Toast toast = Toast.makeText(view.getContext(), "This entry needs a name", Toast.LENGTH_SHORT);
+                toast.show();
+                return null;
+            }
+
+            photo.setName(strName);
+
+            try {
+                LocalDateTime datetime = LocalDateTime.of(
+                        LocalDate.parse(date.getText().toString(), DateTimeFormatter.ofPattern("MM-dd-yyyy")),
+                        LocalTime.parse(time.getText().toString(), DateTimeFormatter.ofPattern("HH:mm")));
+                photo.setDateTime(datetime);
+            } catch (Exception e){
+                photo.setDateTime(LocalDateTime.now());
+            }
 
             //Camera Settings
             TextView shutterSpeed = view.findViewById(R.id.txtShutterSpeed);
@@ -169,9 +192,17 @@ public class NewPhotoFragment extends Fragment {
             TextView camera = view.findViewById(R.id.txtCamera);
             TextView filmOrRes = view.findViewById(R.id.txtFilmOrRes);
 
-            photo.setShutterSpeed(Integer.parseInt(shutterSpeed.getText().toString()));
-            photo.setAperture(Float.parseFloat(aperture.getText().toString()));
-            photo.setIso(Integer.parseInt(iso.getText().toString()));
+            try {
+                photo.setShutterSpeed(Integer.parseInt(shutterSpeed.getText().toString()));
+                photo.setAperture(Float.parseFloat(aperture.getText().toString()));
+                photo.setIso(Integer.parseInt(iso.getText().toString()));
+            } catch (NumberFormatException nfe){
+                photo.setShutterSpeed(0);
+                photo.setAperture(0);
+                photo.setIso(0);
+                Log.e("NumberFormatException", nfe.toString());
+            }
+
             photo.setLens(lens.getText().toString());
             photo.setCamera(camera.getText().toString());
             photo.setFilmOrRes(filmOrRes.getText().toString());
@@ -196,34 +227,74 @@ public class NewPhotoFragment extends Fragment {
             });
 
         } catch (Exception e) {
-            Log.e("createPhotoProperties", e.toString());
+            Log.e("Something went wrong with createPhotoProperties", e.toString());
         }
         return photo;
     }
 
-    private void saveFilmData(SharedPreferences.Editor editor, LinkedList<FilmPhoto> list){
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        editor.putString("Photo List", json);
-        editor.apply();
-    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void editPhoto(Photo p, View view){
+        //Get Views
+        //General
+        EditText name = (EditText) view.findViewById(R.id.txtName);
+        EditText date = (EditText) view.findViewById(R.id.txtDate);
+        TextView time = view.findViewById(R.id.txtTime);
+        //Camera Settings
+        TextView shutterSpeed = view.findViewById(R.id.txtShutterSpeed);
+        TextView aperture = view.findViewById(R.id.txtAperture);
+        TextView iso = view.findViewById(R.id.txtIso);
+        TextView lens = view.findViewById(R.id.txtLens);
+        TextView camera = view.findViewById(R.id.txtCamera);
+        TextView filmOrRes = view.findViewById(R.id.txtFilmOrRes);
+        //About
+        TextView description = view.findViewById(R.id.txtDescription);
+        RadioGroup rdoGrpExposure = view.findViewById(R.id.rdoGrpExposure);
+        RadioGroup rdoGrpPhotoType = view.findViewById(R.id.rdoGrpPhotoType);
 
-    private void saveDigitalData(SharedPreferences.Editor editor, LinkedList<DigitalPhoto> list){
-        Gson gson = new Gson();
-        String json = gson.toJson(list);
-        editor.putString("Photo List", json);
-        editor.apply();
-    }
-
-    private void loadData(SharedPreferences prefs){
-        Gson gson = new Gson();
-        String json = prefs.getString("Photo List", "");
-        Type type = new TypeToken<LinkedList<Photo>>() {}.getType();
-        mPhotos = gson.fromJson(json, type);
-
-        if (mPhotos == null){
-            mPhotos = new LinkedList<>();
+        //Set Text
+        //General
+        name.setText(p.getName());
+        date.setText(p.getDateTime().toLocalDate().format(DateTimeFormatter.ofPattern("MM-dd-yyyy")));
+        time.setText(p.getDateTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        //Camera Settings
+        try{
+            shutterSpeed.setText(p.getShutterSpeed());
+            aperture.setText(Float.toString(p.getAperture()));
+            iso.setText(p.getIso());
+        } catch (Exception e){
+            shutterSpeed.setText("");
+            aperture.setText("");
+            iso.setText("");
+            Log.e("editPhoto, setting Number fields", e.toString());
         }
-    }
 
+        lens.setText(p.getLens());
+        camera.setText(p.getCamera());
+        filmOrRes.setText(p.getFilmOrRes());
+        //About
+        description.setText(p.getDescription());
+        try {
+            switch (p.getExposure()){
+                case OVER_EXPOSED:
+                    rdoGrpExposure.check(R.id.rdoOverExposed);
+                    break;
+                case UNDER_EXPOSED:
+                    rdoGrpExposure.check(R.id.rdoUnderExposed);
+                    break;
+                case WELL_EXPOSED:
+                    rdoGrpExposure.check(R.id.rdoPerfectExposure);
+                    break;
+            }
+        } catch (NullPointerException nuEx){
+            Log.e("Exposure was null", nuEx.toString());
+        }
+
+
+        if (p.isFilm()){
+            rdoGrpPhotoType.check(R.id.rdoFilm);
+        } else {
+            rdoGrpPhotoType.check(R.id.rdoDigital);
+        }
+
+    }
 }

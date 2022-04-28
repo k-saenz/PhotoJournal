@@ -1,11 +1,21 @@
 package com.example.photojournal.models;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 // TODO: Implement Factory Design Pattern by making this class abstract
+
+@Entity(tableName = "photos")
 public class Photo implements Serializable {
-    private String id;
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
     private String name;
     private String description;
     private LocalDateTime dateTime;
@@ -28,7 +38,7 @@ public class Photo implements Serializable {
 
     public Photo(){}
 
-    public Photo(String id, String name, String description,
+    public Photo(int id, String name, String description,
                  LocalDateTime dateTime, String location,
                  Exposure exposure, int shutterSpeed,
                  float aperture, int iso, String lens,
@@ -49,11 +59,11 @@ public class Photo implements Serializable {
         this.filmOrRes = filmOrRes;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -12,7 +12,7 @@ public class DigitalPhoto extends Photo{
         this.resolution = resolution;
     }
 
-    public DigitalPhoto(String id, String name, String description, LocalDateTime dateTime, String location, Exposure exposure, int shutterSpeed, float aperture, int iso, String lens, String camera, boolean isFilm, String filmOrRes, String resolution) {
+    public DigitalPhoto(int id, String name, String description, LocalDateTime dateTime, String location, Exposure exposure, int shutterSpeed, float aperture, int iso, String lens, String camera, boolean isFilm, String filmOrRes, String resolution) {
         super(id, name, description, dateTime, location, exposure, shutterSpeed, aperture, iso, lens, camera, isFilm, filmOrRes);
         this.resolution = resolution;
     }

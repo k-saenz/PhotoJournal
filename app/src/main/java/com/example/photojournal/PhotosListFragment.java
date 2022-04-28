@@ -24,15 +24,17 @@ import com.example.photojournal.models.Photo;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.LinkedList;
+import java.util.List;
 
 public class PhotosListFragment extends Fragment {
 
-    private LinkedList<Photo> mPhotoList = new LinkedList<Photo>();
+    private List<Photo> mPhotoList;
     private RecyclerView mRecyclerView;
     private PhotoListAdapter mAdapter;
-    private SharedPreferences mPrefs;
 
     public PhotosListFragment() {
         super(R.layout.fragment_photos_list);
@@ -52,35 +54,29 @@ public class PhotosListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_photos_list, container, false);
 
-        mPrefs = getActivity().getSharedPreferences("com.example.photojournal", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = mPrefs.getString("Photo", "");
-
-        Photo photo = gson.fromJson(json, Photo.class);
-
-        //TODO: Populate RV with list items
-
         FloatingActionButton fab = v.findViewById(R.id.fabAddEntry);
 
         fab.setOnClickListener(view -> {
             NewPhotoFragment newFrag = NewPhotoFragment.newInstance();
-            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-            transaction.replace(R.id.photos_list_fragment_container_view, newFrag);
+            FragmentTransaction transaction = MainActivity.fragmentManager.beginTransaction();
+            transaction.replace(R.id.fragment_container, newFrag);
             transaction.addToBackStack(null);
             transaction.commit();
         });
+
+        mPhotoList = MainActivity.photoDB.photoDAO().getPhotos();
 
         mRecyclerView = v.findViewById(R.id.rv_journal);
         mAdapter = new PhotoListAdapter(getActivity(), mPhotoList);
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         return v;
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
     }
+
 }
