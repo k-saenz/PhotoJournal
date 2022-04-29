@@ -20,7 +20,7 @@ public class Photo implements Serializable {
     private String description;
     private LocalDateTime dateTime;
     private String location;
-    private Exposure exposure;
+    private String exposure;
     //Camera settings
     private int shutterSpeed;
     private float aperture;
@@ -41,7 +41,7 @@ public class Photo implements Serializable {
 
     public Photo(int id, String name, String description,
                  LocalDateTime dateTime, String location,
-                 Exposure exposure, int shutterSpeed,
+                 String exposure, int shutterSpeed,
                  float aperture, int iso, String lens,
                  String camera, boolean isFilm,
                  String filmOrRes, String pathToPhoto) {
@@ -101,11 +101,11 @@ public class Photo implements Serializable {
         this.location = location;
     }
 
-    public Exposure getExposure() {
+    public String getExposure() {
         return exposure;
     }
 
-    public void setExposure(Exposure exposure) {
+    public void setExposure(String exposure) {
         this.exposure = exposure;
     }
 

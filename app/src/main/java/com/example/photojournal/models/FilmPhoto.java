@@ -14,7 +14,7 @@ public class FilmPhoto extends Photo{
 
     public FilmPhoto(int id, String name,
                      String description, LocalDateTime dateTime,
-                     String location, Exposure exposure,
+                     String location, String exposure,
                      int shutterSpeed, float aperture,
                      int iso, String lens,
                      String camera, boolean isFilm,

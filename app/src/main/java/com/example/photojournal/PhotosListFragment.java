@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.example.photojournal.models.DigitalPhoto;
 import com.example.photojournal.models.FilmPhoto;
@@ -64,11 +67,19 @@ public class PhotosListFragment extends Fragment {
             transaction.commit();
         });
 
-        mPhotoList = MainActivity.photoDB.photoDAO().getPhotos();
+        SwitchCompat swFilm = v.findViewById(R.id.switchFilm);
+        SwitchCompat swDigital = v.findViewById(R.id.switchDigital);
 
-        mRecyclerView = v.findViewById(R.id.rv_journal);
+        mPhotoList = MainActivity.photoDB.photoDAO().getPhotos();
         mAdapter = new PhotoListAdapter(getActivity(), mPhotoList);
 
+        boolean isSameCheckedState = (!swFilm.isChecked() && !swDigital.isChecked()) ||
+                (swFilm.isChecked() && swDigital.isChecked());
+        if (isSameCheckedState){
+            mAdapter.setPhotos(MainActivity.photoDB.photoDAO().getPhotos());
+        }
+
+        mRecyclerView = v.findViewById(R.id.rv_journal);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

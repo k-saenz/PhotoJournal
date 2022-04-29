@@ -3,13 +3,8 @@ package com.example.photojournal;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,26 +12,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.photojournal.models.*;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
 
-import java.lang.reflect.Type;
+import com.example.photojournal.models.Photo;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicReference;
+
+import pl.aprilapps.easyphotopicker.EasyImage;
 
 public class NewPhotoFragment extends Fragment {
 
     private Context mContext;
     private LinkedList<Photo> mPhotos;
+    //Exposure constants
+    private final String UNDER_EXPOSED = "under";
+    private final String OVER_EXPOSED = "over";
+    private final String PERFECT_EXPOSURE = "perfect";
 
     public NewPhotoFragment() {
         super(R.layout.fragment_new_photo);
@@ -68,17 +69,15 @@ public class NewPhotoFragment extends Fragment {
         Photo photoDataForEdit = null;
 
         if (args != null){
-            photoDataForEdit = (Photo) args.getSerializable("photo");
+            int photoId = args.getInt("photoId");
+            photoDataForEdit = MainActivity.photoDB.photoDAO().getPhoto(photoId);
+
         }
-
-        Gson gson = new Gson();
-
         //Inflate Dialogs for date and time pickers
         createDateTimeDialogs(v);
 
-        RadioGroup rdoGrpPhotoType = (RadioGroup) v.findViewById(R.id.rdoGrpPhotoType);
-        TextView filmOrRes = (TextView) v.findViewById(R.id.txtFilmOrRes);
-        String filmResString = filmOrRes.getText().toString();
+        RadioGroup rdoGrpPhotoType = v.findViewById(R.id.rdoGrpPhotoType);
+        TextView filmOrRes = v.findViewById(R.id.txtFilmOrRes);
 
         Button submit = v.findViewById(R.id.btnSubmit);
         Button addPicture = v.findViewById(R.id.btnAddPicture);
@@ -112,11 +111,17 @@ public class NewPhotoFragment extends Fragment {
             });
         }
 
+        EasyImage easyImage = new EasyImage.Builder(getActivity())
+                .setCopyImagesToPublicGalleryFolder(false)
+                .setFolderName("photojournal Saved Pictures")
+                .allowMultiple(false)
+                .build();
+
         addPicture.setOnClickListener(view -> {
-            
+            easyImage.openChooser(this);
         });
 
-
+        Photo finalPhotoDataForEdit = photoDataForEdit;
         submit.setOnClickListener(view -> {
             Photo newPhoto = setPhotoProperties(photo, v);
 
@@ -124,6 +129,10 @@ public class NewPhotoFragment extends Fragment {
                 String toastText = "Submitted " + newPhoto.getName();
                 Toast toast = Toast.makeText(view.getContext(), toastText, Toast.LENGTH_SHORT);
                 toast.show();
+
+                if (finalPhotoDataForEdit != null){
+                    MainActivity.photoDB.photoDAO().deletePhoto(finalPhotoDataForEdit);
+                }
 
                 MainActivity.photoDB.photoDAO().addPhoto(newPhoto);
                 getActivity().onBackPressed();
@@ -223,20 +232,25 @@ public class NewPhotoFragment extends Fragment {
             TextView description = view.findViewById(R.id.txtDescription);
             photo.setDescription(description.getText().toString());
 
-            RadioGroup rdoGrpExposure = view.findViewById(R.id.rdoGrpExposure);
-            rdoGrpExposure.setOnCheckedChangeListener((rdoGrp, chkId) -> {
-                switch (chkId) {
-                    case R.id.rdoOverExposed:
-                        photo.setExposure(Exposure.OVER_EXPOSED);
-                        break;
-                    case R.id.rdoUnderExposed:
-                        photo.setExposure(Exposure.UNDER_EXPOSED);
-                        break;
-                    case R.id.rdoPerfectExposure:
-                        photo.setExposure(Exposure.WELL_EXPOSED);
-                        break;
-                }
-            });
+            RadioButton rdoOver = view.findViewById(R.id.rdoOverExposed);
+            RadioButton rdoUnder = view.findViewById(R.id.rdoUnderExposed);
+
+            if (rdoOver.isChecked()){
+                photo.setExposure(OVER_EXPOSED);
+            } else if (rdoUnder.isChecked()){
+                photo.setExposure(UNDER_EXPOSED);
+            } else {
+                photo.setExposure(PERFECT_EXPOSURE);
+            }
+
+            RadioButton rdoFilm = view.findViewById(R.id.rdoFilm);
+            RadioButton rdoDigital = view.findViewById(R.id.rdoDigital);
+
+            if (rdoFilm.isChecked()){
+                photo.setFilm(true);
+            } else {
+                photo.setFilm(false);
+            }
 
         } catch (Exception e) {
             Log.e("Something went wrong with createPhotoProperties", e.toString());
@@ -285,6 +299,7 @@ public class NewPhotoFragment extends Fragment {
         filmOrRes.setText(p.getFilmOrRes());
         //About
         description.setText(p.getDescription());
+
         try {
             switch (p.getExposure()){
                 case OVER_EXPOSED:
@@ -293,14 +308,13 @@ public class NewPhotoFragment extends Fragment {
                 case UNDER_EXPOSED:
                     rdoGrpExposure.check(R.id.rdoUnderExposed);
                     break;
-                case WELL_EXPOSED:
+                case PERFECT_EXPOSURE:
                     rdoGrpExposure.check(R.id.rdoPerfectExposure);
                     break;
             }
         } catch (NullPointerException nuEx){
             Log.e("Exposure was null", nuEx.toString());
         }
-
 
         if (p.isFilm()){
             rdoGrpPhotoType.check(R.id.rdoFilm);

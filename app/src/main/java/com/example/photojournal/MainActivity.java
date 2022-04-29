@@ -4,11 +4,13 @@ import static android.os.Environment.getExternalStoragePublicDirectory;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -35,10 +37,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
+import pl.aprilapps.easyphotopicker.DefaultCallback;
+import pl.aprilapps.easyphotopicker.EasyImage;
+import pl.aprilapps.easyphotopicker.MediaFile;
+import pl.aprilapps.easyphotopicker.MediaSource;
+
 
 public class MainActivity extends FragmentActivity {
     public static FragmentManager fragmentManager;
     public static PhotoDB photoDB;
+    EasyImage easyImage = new EasyImage.Builder(this)
+            .setCopyImagesToPublicGalleryFolder(false)
+            .setFolderName("photojournal Saved Pictures")
+            .allowMultiple(false)
+            .build();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -67,17 +79,14 @@ public class MainActivity extends FragmentActivity {
 //        });
     }
 
-    public void getImageFromGallery(){
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null){
-            Uri selectedImage = data.getData();
-            ImageView view = findViewById(R.id.imgPicTaken);
-            view.setImageURI(selectedImage);
-        }
+
+
+    }
+
+    public void addPicture(View view) {
+        easyImage.openCameraForImage(this);
     }
 }
